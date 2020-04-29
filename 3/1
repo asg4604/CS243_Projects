@@ -1,0 +1,158 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "queue.h"
+#define NUM_CHILDREN 100
+
+typedef struct family_node {
+	char *name; // Use strdup to get the value of the name
+	int num_children;
+	struct family_node *children[NUM_CHILDREN]; // Can realloc if need more
+} family_node_s;
+
+typedef family_node_s *family_node_t;
+
+char* strdup (const char* s)
+{
+  size_t slen = strlen(s);
+  char* result = malloc(slen + 1);
+  if(result == NULL)
+  {
+    return NULL;
+  }
+
+  memcpy(result, s, slen+1);
+  return result;
+}
+	
+family_node_t create_f_node(char *name) {
+	family_node_t new_fam_node = (family_node_t) malloc( sizeof(family_node_s) );
+	new_fam_node->name = strdup(name);
+	new_fam_node->num_children = 0;
+	// Initializing all of the children to null
+	for (int x = 0; x < NUM_CHILDREN; x++) {
+		new_fam_node->children[x] = NULL;
+	}
+	return new_fam_node;
+}
+
+bool streq(char *a, char *b) {
+	return strcmp(a, b) == 0;
+}
+
+bool equivalent_names(void *name1, void *name2) {
+	char *a = (char *) name1;
+	char *b = (char *) name2;
+	return streq(a, b);
+}
+
+family_node_t find_node(family_node_t tree, char *name) {
+	queue_t queue = que_create(equivalent_names);
+	que_enqueue(queue, tree);
+	family_node_t front = NULL;
+	while ( que_size(queue) > 0 ) {
+		front = (family_node_t ) que_front(queue);
+		que_dequeue(queue);
+		if ( streq(name, front->name) ) {
+			return front;
+		} else {
+			for (int x = 0; x < front->num_children; x++) {
+				if (front->children[x] != NULL) {
+					printf("DEBUG: Child added to queue %s\n", front->children[x]->name);
+					que_enqueue(queue, front->children[x]);
+				}
+			}
+		}
+	}
+	return NULL;
+}
+
+// Realloc code will go here
+family_node_t add_child(family_node_t tree, parent_name, child_name) {
+	family_node_t parent_node = find_node(tree, parent_name);
+	parent_node->children[parent_node->num_children++] = create_f_node(child_name);
+	return tree;
+}
+
+void destroy_tree( family_node_t tree ) {
+	if (tree == NULL) {
+		return;
+	}
+	for (int x = 0; x < tree->num_children; x++) {
+		destroy_tree(tree->children[x]);
+	}
+	free(tree->name);
+	free(tree);
+}
+
+void print_family_node( family_node_t family_node ) {
+	printf("%s had ", family_node->name);
+	for (int x = 0; x < family_node->num_children; x++) {
+		if (x == family_node->num_children - 2) {
+			printf(" and ");
+		}
+		printf("%s");
+		if (x < family_node->num_children - 1) {
+			printf(", ");
+		}
+	}
+	printf("\n");
+}
+
+void print_tree(family_node_t tree, char *name) {
+	family_node_t parent_to_print;
+	if (name == NULL) {
+		parent_to_print = tree;
+	} else {
+		parent_to_print = find_node(tree,name);
+	}
+	// Breadth first traversal
+	queue_t queue = que_create(equivalent_names);
+	family_node_t front = NULL;
+	while ( que_size(queue) > 0 ) {
+		front = (family_node_t ) que_front(queue);
+		que_dequeue(queue);
+		if ( 1 ) {
+			// print family_node			
+		} else {
+			for (int x = 0; x < front->num_children; x++) {
+				if (front->children[x] != NULL) {
+					// printf("DEBUG: Child added to queue %s\n", front->children[x]->name);
+					que_enqueue(queue, front->children[x]);
+				}
+			}
+		}
+	}
+}
+
+int main() {
+	// Queue testing
+	int a = 1;
+	int b = 2;
+	int c = 3;
+	int d = 4;
+//	queue_t queue = que_create(equivalent_names);
+//	que_enqueue(queue, &a);
+//	que_dequeue(queue);
+//	que_enqueue(queue, &b);
+//	printf("Front %d\n", *( (int *) que_front(queue)));
+
+	
+	// Create a tree
+	family_node_t dad = create_f_node("Joe");
+	dad->num_children++;
+	family_node_t son = create_f_node("Stan");
+	family_node_t grandson = create_f_node("peepee");
+	family_node_t grandson_2 = create_f_node("poopoo");
+	family_node_t grandson_3 = create_f_node("papa");
+	
+	son->children[0] = grandson;
+	son->num_children+=3;
+	dad->children[0] = son;
+	printf("Joe's son: %s\n", dad->children[0]->name);
+		 
+	// Finding Stan
+	family_node_t stan_found = find_node(dad, "peepee");
+	printf("Joe's sons name: %s\n", stan_found->name);
+	print_family_node(son);
+}

@@ -1,0 +1,47 @@
+commit 589ca96167a0faab83d5d2ad6b9b43a1151f237c
+Author: asg4604 <asg4604@medusa.cs.rit.edu>
+Date:   Thu Dec 5 23:42:12 2019 -0500
+
+    Commented and fixed warnings
+
+commit d860257b581fa8f23810bb63b7893bf4f22ba08d
+Author: asg4604 <asg4604@medusa.cs.rit.edu>
+Date:   Thu Dec 5 21:52:10 2019 -0500
+
+    Added some documentation
+
+commit 435638356fcb49eab3919f29d79e40d4195e80b8
+Author: asg4604 <asg4604@medusa.cs.rit.edu>
+Date:   Thu Dec 5 17:58:37 2019 -0500
+
+    Added help message and fixed all memory leaks
+
+commit 6a0cb60c2deef7a0638db53c669368c143f312b2
+Author: asg4604 <asg4604@medusa.cs.rit.edu>
+Date:   Tue Dec 3 20:59:43 2019 -0500
+
+    Fixed memory errors with queue.c
+
+commit cb1d77972c8c51139f3de390d839baba1bbc7055
+Author: asg4604 <asg4604@medusa.cs.rit.edu>
+Date:   Wed Nov 20 09:51:51 2019 -0500
+
+    Implemented the height calculating function
+
+commit c00e031140772ae725e36c2175deb4aa42718edb
+Author: asg4604 <asg4604@medusa.cs.rit.edu>
+Date:   Tue Nov 19 23:40:33 2019 -0500
+
+    Implemented finding and creating nodes for family members fixed queue
+
+commit beaeebbbaabf5ddbfb8943df99f23c871272b850
+Author: asg4604 <asg4604@medusa.cs.rit.edu>
+Date:   Tue Nov 19 09:44:12 2019 -0500
+
+    Created the queue header and adjusted the queue to project specifications
+
+commit 0472779fd3b9a630605a5c1c37758a0687831283
+Author: asg4604 <asg4604@medusa.cs.rit.edu>
+Date:   Sat Nov 16 17:43:40 2019 -0500
+
+    Created the linked list implementation for the queue
